@@ -1,2 +1,1 @@
 # mindcaptor-server
-# mindcaptor-client
