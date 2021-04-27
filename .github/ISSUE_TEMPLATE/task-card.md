@@ -28,6 +28,7 @@ assignees: ''
 
 ### Labels
 - Estimated time: `E: 1h`
+- Completed time: `C: 1h`
 - Group : `client`, `server`
 - Sprint: `Sprint__NUMBER__`
 - Urgency: `High`, `Middle`, `Low`
