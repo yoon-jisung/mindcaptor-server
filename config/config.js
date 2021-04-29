@@ -9,12 +9,7 @@ module.exports = {
     database: 'mindcaptorData',
     host: '127.0.0.1',
     dialect: 'mysql',
-    dialectOptions: {
-      useUTC: true,
-      dateStrings: true,
-      typeCast: true,
-    },
-    timezone: '+09:00',
+    logging: false
   },
   test: {
     username: 'root',
@@ -30,11 +25,5 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     port: process.env.DATABASE_PORT,
     dialect: 'mysql',
-    dialectOptions: {
-      useUTC: true,
-      dateStrings: true,
-      typeCast: true,
-    },
-    timezone: '+09:00',
   },
 };
