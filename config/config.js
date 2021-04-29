@@ -9,7 +9,12 @@ module.exports = {
     database: 'mindcaptorData',
     host: '127.0.0.1',
     dialect: 'mysql',
-    logging: false
+    dialectOptions: {
+      useUTC: true,
+      dateStrings: true,
+      typeCast: true,
+    },
+    timezone: '+09:00',
   },
   test: {
     username: 'root',
