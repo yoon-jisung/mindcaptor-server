@@ -1,6 +1,7 @@
-const User = require('../fakeData/fakeUserData');
-const Room = require('../fakeData/fakeRoomData');
-const Guest = require('../fakeData/fakeGuestData');
+const db = require('../models/index.js');
+const User = require('../models/index.js').users;
+const Room = require('../models/index.js').rooms;
+const Guest = require('../models/index.js').guests;
 
 const joinUser = async (req, room) => {
     // authorization 헤더 내용물이 `Bearer {Token}` 형식이기 때문에 가공해주어야 한다.
@@ -8,8 +9,10 @@ const joinUser = async (req, room) => {
     const userData = jwt.verify(splited, process.env.ACCESS_SECRET);
     await User.update({ room_id: room.id }, { where: { id: userData.userId } });
 };
+
 module.exports = {
     join: async (req, res) => {
+        const io = req.app.get('io');
         // accessToken이 없으면 반려
         if (!req.headers.authorization) {
             res.status(401).send('accessToken이 없습니다.');
@@ -33,11 +36,17 @@ module.exports = {
                 }
                 // 3-2. 유저들이 4명 이상이면 다시 1번으로 돌아간다
             }
-            res.status(200).send('ok');
+
             // 4. 유저를 실시간 소켓에 연결시킨다
+            io.on('connection', (socket) => {
+                socket.join(room.id);
+            });
+
+            res.status(200).send('ok');
         }
     },
     new: async (req, res) => {
+        const io = req.app.get('io');
         if (!req.headers.authorization) {
             res.status(401).send('로그인하지 않은 사용자입니다.');
         } else {
@@ -49,10 +58,13 @@ module.exports = {
                 answer: null,
             });
             await joinUser(req, newRoom); // 2. 사용자를 그 방과 연결시킨다.
-            res.status(200).send('ok');
 
-            // 3. 해당 방으로 socket.io room을 생성한다.
-            // 4. 유저를 실시간 소켓에 연결시킨다.
+            // 3. 유저를 그 룸에 넣는다
+
+            io.on('connection', (socket) => {
+                socket.join(room.id);
+            });
+            res.status(200).send('ok');
         }
     },
 };
