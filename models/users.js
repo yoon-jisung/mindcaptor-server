@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   class users extends Model {
 
     static associate(models) {
+      users.belongsTo(models.images, {foreignKey: 'profile_image', targetKey: 'id'});
+      users.belongsTo(models.rooms, {foreignKey: 'room_id', targetKey: 'id'});
     }
   }
   users.init(
@@ -12,12 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       nickname: DataTypes.STRING,
-      profigle_image: DataTypes.STRING,
-      room_id: DataTypes.STRING,
+      profigle_image: DataTypes.INTEGER,
+      room_id: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: 'user',
+      modelName: 'users',
     }
   );
   return users;
