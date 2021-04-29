@@ -7,7 +7,8 @@ module.exports = {
     username: process.env.DATABASE_USER,//'root',
     password: process.env.DATABASE_PASSWORD,
     database: 'mindcaptorData',
-    host: '127.0.0.1',
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
     dialect: 'mysql',
     logging: false
   },
