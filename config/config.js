@@ -4,7 +4,7 @@ dotenv.config();
 
 module.exports = {
   development: {
-    username: 'root',
+    username: process.env.DATABASE_USER,//'root',
     password: process.env.DATABASE_PASSWORD,
     database: 'mindcaptorData',
     host: '127.0.0.1',
@@ -19,10 +19,17 @@ module.exports = {
     dialect: 'mysql',
   },
   production: {
-    username: 'root',
+    username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
-    database: 'mindcaptorData',
-    host: '127.0.0.1',
+    database: 'midcaptorData',
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
     dialect: 'mysql',
+    dialectOptions: {
+      useUTC: true,
+      dateStrings: true,
+      typeCast: true,
+    },
+    timezone: '+09:00',
   },
 };
