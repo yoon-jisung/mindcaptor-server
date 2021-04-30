@@ -2,6 +2,9 @@ require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const guestRouter = require('./routes/guest');
@@ -12,6 +15,12 @@ const userRouter = require('./routes/user');
 
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
 
+// 서버가 실행될 때 시퀄라이저의 스키마를 DB에 적용
+sequelize.sync();
+
+/* 테스트용 클라이언트(testClient/chat.ejs)를 위한 뷰 엔진 */
+
+app.set('io', io);
 app.use(
     cors({
         origin: [
@@ -33,9 +42,9 @@ app.use('/room', roomRouter);
 app.use('/mypage/:userid', mypageRouter);
 app.use('/user', userRouter);
 
-app.listen(HTTP_PORT, () => {
+server.listen(HTTP_PORT, () => {
     console.log('server runnning ', HTTP_PORT);
 });
 
-module.exports = app;
+module.exports = server;
 //테스트
