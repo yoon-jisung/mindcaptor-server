@@ -12,6 +12,7 @@ const registerRouter = require('./routes/register');
 const mypageRouter = require('./routes/mypage');
 const roomRouter = require('./routes/room');
 const userRouter = require('./routes/user');
+const { sequelize } = require('./models');
 
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
 
