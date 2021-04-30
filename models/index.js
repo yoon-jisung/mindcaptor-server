@@ -33,8 +33,34 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-const { followlist, users, guests, images, rooms, } = Sequelize.models
+
+db.users = require('./users')(sequelize,Sequelize);
+db.followlist = require('./followlist')(sequelize,Sequelize);
+db.images = require('./imagea')(sequelize,Sequelize);
+db.rooms = require('./rooms')(sequelize,Sequelize);
+db.guests= require('./guests')(sequelize,Sequelize);
+
+db.users.belongsTo(models.images, {foreignKey: 'profile_image', targetKey: 'id'});
+db.images.hasMany(models.users,{foreignKey:'profile_image',sourceKey:'id'})
+
+// db.market.hasMany(db.product, {foreignKey: 'marketID', sourceKey:"id"});
+// db.product.belongsTo(db.market, {foreignKey:'marketID', targetKey: "id"});
 
 
 
 module.exports = db;
+  // User.belongsToMany(
+  //   db.User, {
+  //     foreignKey: 'followingId',
+  //     as: 'followers',
+  //     through: 'follow'
+  //   }
+  // );
+
+  // User.belongsToMany(
+  //   db.User, {
+  //     foreignKey: 'followerId',
+  //     as: 'followings',
+  //     through: 'follow'
+  //   }
+  // );
