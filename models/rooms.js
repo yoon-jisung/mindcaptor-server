@@ -11,13 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      rooms.hasMany(models.users,{foreignKey:'room_id',sourceKey:'id'})
+      rooms.hasMany(models.guests,{foreignKey:'room_id',sourceKey:'id'})
+
     }
   };
   rooms.init({
     room_pw: DataTypes.STRING,
     room_name: DataTypes.STRING,
     limit_time: DataTypes.INTEGER,
-    room_id: DataTypes.INTEGER
+    answer: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'rooms',
