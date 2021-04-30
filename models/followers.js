@@ -1,4 +1,5 @@
 'use strict';
+
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class followers extends Model {
@@ -25,3 +26,4 @@ module.exports = (sequelize, DataTypes) => {
     );
     return followers;
 };
+
