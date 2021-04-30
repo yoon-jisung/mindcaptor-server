@@ -1,23 +1,17 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class images extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+    class images extends Model {
+        static associate(models) {}
     }
-  };
-  images.init({
-    images: DataTypes.BLOB
-  }, {
-    sequelize,
-    modelName: 'images',
-  });
-  return images;
+    images.init(
+        {
+            images: DataTypes.BLOB('tiny'),
+        },
+        {
+            sequelize,
+            modelName: 'images',
+        }
+    );
+    return images;
 };

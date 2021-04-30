@@ -14,11 +14,13 @@ const roomRouter = require('./routes/room');
 const userRouter = require('./routes/user');
 
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
-app.set('io', io);
+
+// 서버가 실행될 때 시퀄라이저의 스키마를 DB에 적용
+sequelize.sync();
 
 /* 테스트용 클라이언트(testClient/chat.ejs)를 위한 뷰 엔진 */
-app.set('view engine', 'ejs');
 
+app.set('io', io);
 app.use(
     cors({
         origin: [
