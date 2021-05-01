@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     room_pw: DataTypes.STRING,
     room_name: DataTypes.STRING,
     limit_time: DataTypes.INTEGER,
-    answer: DataTypes.STRING
+    room_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'rooms',

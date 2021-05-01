@@ -17,8 +17,8 @@ module.exports = {
       limit_time: {
         type: Sequelize.INTEGER
       },
-      answer: {
-        type: Sequelize.STRING
+      room_id: {
+        type: Sequelize.INTEGER
       },
     });
   },
