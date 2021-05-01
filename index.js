@@ -1,34 +1,51 @@
-const express = require('express');
-const https = require('https');
+require('dotenv').config();
 const cors = require('cors');
-const fs = require('fs');
-const cookieParser = require("cookie-parser");
-require("dotenv").config();
-
-const privateKey = fs.readFileSync(__dirname + "/key.pem", "utf8");
-const certificate = fs.readFileSync(__dirname + "/cert.pem", "utf8");
-const credentials = { key: privateKey, cert: certificate };
-
+const express = require('express');
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
+const indexRouter = require('./routes/index');
+const loginRouter = require('./routes/login');
+const guestRouter = require('./routes/guest');
+const registerRouter = require('./routes/register');
+const mypageRouter = require('./routes/mypage');
+const roomRouter = require('./routes/room');
+const userRouter = require('./routes/user');
+const { sequelize } = require('./models');
+
+const HTTP_PORT = process.env.HTTP_PORT || 4000;
+
+// 서버가 실행될 때 시퀄라이저의 스키마를 DB에 적용
+sequelize.sync({force:true});
+
+/* 테스트용 클라이언트(testClient/chat.ejs)를 위한 뷰 엔진 */
+
+app.set('io', io);
 app.use(
     cors({
-        origin: ["https://localhost:3000"],
+        origin: [
+            'http://localhost:3000',
+            'http://ec2-3-15-179-101.us-east-2.compute.amazonaws.com',
+        ],
         credentials: true,
-        methods: ["GET", "POST", "OPTIONS"],
+        methods: ['GET', 'POST', 'OPTIONS'],
     })
 );
+app.use(express.json()); // 요청의 본문을 req.body에 json 형식으로 넣어준다
+app.use(express.urlencoded({ extended: false }));
 
+app.use('/', indexRouter);
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
+app.use('/guest', guestRouter);
+app.use('/room', roomRouter);
+app.use('/mypage/:userid', mypageRouter);
+app.use('/user', userRouter);
 
-app.get('/', (req, res) => {
-    res.send('hello World');
+server.listen(HTTP_PORT, () => {
+    console.log('server runnning ', HTTP_PORT);
 });
 
-
-const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
-const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(HTTPS_PORT, () => { console.log("server runnning ", HTTPS_PORT) });
-module.exports = httpsServer;
+module.exports = server;
+//테스트
