@@ -4,11 +4,11 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class followers extends Model {
         static associate(models) {
-            followers.belongsTo(models.users, {
+            followers.belongsToMany(models.users, {
                 foreignKey: 'following_id',
                 targetKey: 'id',
             });
-            followers.belongsTo(models.users, {
+            followers.belongsToMany(models.users, {
                 foreignKey: 'followed_id',
                 targetKey: 'id',
             });
@@ -26,4 +26,3 @@ module.exports = (sequelize, DataTypes) => {
     );
     return followers;
 };
-

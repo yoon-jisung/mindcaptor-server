@@ -1,7 +1,7 @@
-const db = require('../models/index.js');
 const User = require('../models/index.js').users;
 const Room = require('../models/index.js').rooms;
 const Guest = require('../models/index.js').guests;
+const socketConnection = require('./socketConnection');
 
 const joinUser = async (req, room) => {
     // authorization 헤더 내용물이 `Bearer {Token}` 형식이기 때문에 가공해주어야 한다.
@@ -36,13 +36,9 @@ module.exports = {
                 }
                 // 3-2. 유저들이 4명 이상이면 다시 1번으로 돌아간다
             }
-
-            // 4. 유저를 실시간 소켓에 연결시킨다
-            io.on('connection', (socket) => {
-                socket.join(room.id);
-            });
-
-            res.status(200).send('ok');
+            socketConnection(room, io);
+            // res.status(200).send('ok');
+            res.render('../testClient/chat.ejs');
         }
     },
     new: async (req, res) => {
@@ -58,13 +54,10 @@ module.exports = {
                 answer: null,
             });
             await joinUser(req, newRoom); // 2. 사용자를 그 방과 연결시킨다.
+            socketConnection(room, io);
 
-            // 3. 유저를 그 룸에 넣는다
-
-            io.on('connection', (socket) => {
-                socket.join(room.id);
-            });
-            res.status(200).send('ok');
+            // res.status(200).send('ok');
+            res.render('../testClient/chat.ejs');
         }
     },
 };
