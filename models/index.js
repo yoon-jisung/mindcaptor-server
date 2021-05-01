@@ -68,44 +68,4 @@ const followlist = sequelize.define('followlist',{
 db.users.belongsToMany(db.users, {through: 'followlist',as: 'following'})
 db.users.belongsToMany(db.users, {through: 'followlist',as: 'followed'})
 
-// const ActorMovies = sequelize.define('ActorMovies', {
-//   MovieId: {
-//     type: DataTypes.INTEGER,
-//     references: {
-//       model: Movie, // 'Movies' would also work
-//       key: 'id'
-//     }
-//   },
-//   ActorId: {
-//     type: DataTypes.INTEGER,
-//     references: {
-//       model: Actor, // 'Actors' would also work
-//       key: 'id'
-//     }
-//   }
-// });
-
-//db.followlist.belongsTo(db.users,{foreignKey:'following_id',targetKey:'id'})
-//db.followlist.belongsTo(db.users,{foreignKey:'followed_id',targetKey:'id'})
-
-// db.market.hasMany(db.product, {foreignKey: 'marketID', sourceKey:"id"});
-// db.product.belongsTo(db.market, {foreignKey:'marketID', targetKey: "id"});
-
-
-
 module.exports = db;
-  // User.belongsToMany(
-  //   db.User, {
-  //     foreignKey: 'followingId',
-  //     as: 'followers',
-  //     through: 'follow'
-  //   }
-  // );
-
-  // User.belongsToMany(
-  //   db.User, {
-  //     foreignKey: 'followerId',
-  //     as: 'followings',
-  //     through: 'follow'
-  //   }
-  // );
