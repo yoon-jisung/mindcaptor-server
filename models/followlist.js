@@ -11,13 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.users,{foreignKey:'following_id',targetKey:'id'})
-      this.belongsTo(models.users,{foreignKey:'followed_id',targetKey:'id'})
     }
   };
   followlist.init({
     following_id: DataTypes.STRING,
-    followed_id: DataTypes.STRING
+    followed_id: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'followlist',
