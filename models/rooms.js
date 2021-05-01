@@ -11,9 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      rooms.hasMany(models.users,{foreignKey:'room_id',sourceKey:'id'})
-      rooms.hasMany(models.guests,{foreignKey:'room_id',sourceKey:'id'})
-
     }
   };
   rooms.init({
