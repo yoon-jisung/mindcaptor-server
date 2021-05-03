@@ -13,4 +13,9 @@ router.post('/join', (req, res, next) => {
     controller.join(req, res);
 });
 
+// 인게임이 이루어지는 곳
+router.get('/:roomid', (req, res, next) => {
+    controller.ingame(req, res);
+});
+
 module.exports = router;
