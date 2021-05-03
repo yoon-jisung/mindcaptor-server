@@ -11,8 +11,10 @@ const joinUser = async (req, room) => {
 };
 
 module.exports = {
+    ingame: async (req, res) => {
+        res.send('ok');
+    },
     join: async (req, res) => {
-        const io = req.app.get('io');
         // accessToken이 없으면 반려
         if (!req.headers.authorization) {
             res.status(401).send('accessToken이 없습니다.');
@@ -21,8 +23,9 @@ module.exports = {
         } else {
             let room;
             while (1) {
-                // 1. 랜덤으로 방 하나를 가져온다
-                room = await Room.findOne({ order: 'random()' });
+                // 1.방 하나를 가져온다
+                await Room.create({ room_name: 1, id: 1 }); // 테스트용 방 생성
+                room = await Room.findOne();
 
                 // 2. 해당 방과 연결된 User와 Guest들을 찾는다
                 let userNum = await User.count({ where: { room_id: room.id } });
@@ -36,13 +39,10 @@ module.exports = {
                 }
                 // 3-2. 유저들이 4명 이상이면 다시 1번으로 돌아간다
             }
-            socketConnection(room, io);
-            // res.status(200).send('ok');
-            res.render('../testClient/chat.ejs');
+            res.redirect('../room/' + room.id); // 방에 입장
         }
     },
     new: async (req, res) => {
-        const io = req.app.get('io');
         if (!req.headers.authorization) {
             res.status(401).send('로그인하지 않은 사용자입니다.');
         } else {
@@ -53,11 +53,9 @@ module.exports = {
                 limit_time: 3000,
                 answer: null,
             });
-            await joinUser(req, newRoom); // 2. 사용자를 그 방과 연결시킨다.
-            socketConnection(room, io);
+            // await joinUser(req, newRoom); // 2. 사용자를 그 방과 연결시킨다.
 
-            // res.status(200).send('ok');
-            res.render('../testClient/chat.ejs');
+            res.redirect('../' + newRoom.id);
         }
     },
 };
