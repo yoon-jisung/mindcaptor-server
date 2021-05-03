@@ -14,6 +14,9 @@ module.exports = {
       room_id: {
         type: Sequelize.INTEGER
       },
+      answer: {
+        type: Sequelize.STRING
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

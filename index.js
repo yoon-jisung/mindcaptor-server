@@ -12,6 +12,7 @@ const registerRouter = require('./routes/register');
 const mypageRouter = require('./routes/mypage');
 const roomRouter = require('./routes/room');
 const userRouter = require('./routes/user');
+const googleRouter = require('./routes/googleLogin');
 const { sequelize } = require('./models');
 
 const HTTP_PORT = process.env.HTTP_PORT || 4000;
@@ -42,6 +43,7 @@ app.use('/guest', guestRouter);
 app.use('/room', roomRouter);
 app.use('/mypage/:userid', mypageRouter);
 app.use('/user', userRouter);
+app.use('/googlelogin', googleRouter);
 
 server.listen(HTTP_PORT, () => {
     console.log('server runnning ', HTTP_PORT);
