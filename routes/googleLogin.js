@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const controllers = require('../controllers/googlecallback');
+const controller = require('../controllers/googlecallback');
 
-router.post('/', controllers);
+router.post('/', controller);
 
 
 
