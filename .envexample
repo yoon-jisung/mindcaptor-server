@@ -1,0 +1,18 @@
+LOCAL_PASSWORD=thd123
+LOCAL_USERNAME=root
+LOCAL_DB_NAME=mindcaptorData
+LOCAL_HOST = localhost
+
+RDS_USERNAME=admin
+RDS_PASSWORD=qwerqwer
+PRODUCTION_DB_NAME=mindcaptorData
+RDS_HOST=mindcaptordata.cn3s4scy9pff.us-east-2.rds.amazonaws.com
+
+RDS_PORT=13306
+
+JWT_SECRET=jwtSecret
+ACCESS_SECRET=jwtSecret
+REFRESH_SECRET=jwtSecret
+
+GOOGLE_CLIENT_ID=970331179604-upa291p2st8pmj3676qmnm4geurg21cb.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=uWq38ITipksr_je2SpzLrbj2
