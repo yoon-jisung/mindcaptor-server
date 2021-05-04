@@ -7,7 +7,6 @@ const websocket = require('./controllers/socketConnection');
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const guestRouter = require('./routes/guest');
-const registerRouter = require('./routes/register');
 const mypageRouter = require('./routes/mypage');
 const roomRouter = require('./routes/room');
 const userRouter = require('./routes/user');
@@ -38,7 +37,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
-app.use('/register', registerRouter);
 app.use('/guest', guestRouter);
 app.use('/room', roomRouter);
 app.use('/mypage/:userid', mypageRouter);
