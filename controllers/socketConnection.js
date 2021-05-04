@@ -14,7 +14,7 @@ module.exports = (server, app) => {
         let presenter;
         socket.join(roomNum);
 
-        // 사용자가 나간 경우 - 미구현
+        // 사용자가 나간 경우 - 미구현ß
         socket.on('disconnect', async () => {
             socket.leave(roomNum);
             if (io.to(roomNum).length < 2) {
@@ -41,7 +41,6 @@ module.exports = (server, app) => {
 
         // 3. 출제자의 단어 선택 후 ???
         socket.on('set answer', (arg) => {
-            console.log(arg);
             answer = arg;
         });
 
@@ -52,6 +51,10 @@ module.exports = (server, app) => {
             } else {
                 io.to(roomNum).emit('show chat', userid, message);
             }
+        });
+        // 그림 보낼 때
+        socket.on('send paint', (x0, y0, x1, y1, color) => {
+            io.to(roomNum).emit('show paint', x0, y0, x1, y1, color);
         });
 
         socket.on('end round', () => {
