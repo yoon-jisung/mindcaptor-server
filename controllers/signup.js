@@ -1,5 +1,4 @@
 const { users } = require('../models')
-const sha256 = require('sha256')
 
 module.exports = {
     post: async function (req, res) {
@@ -13,10 +12,6 @@ module.exports = {
                     password: req.body.password,
                 }
             })
-
-            //암호화-----------------------
-            //userInfo.password = sha256(userInfo.password)
-
 
             if(created){
                 res.status(201).json({ data: userInfo,  message: 'created' });
