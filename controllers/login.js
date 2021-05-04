@@ -6,6 +6,7 @@ module.exports = {
         let userInfo = await users.findOne({
             where: { email: req.body.email, password: req.body.password }
         })
+        console.log(userInfo)
         if (!userInfo) {
             res.status(400).json({ data: null, message: 'This is unauthorized user.' })
         }
