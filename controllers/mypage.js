@@ -155,6 +155,25 @@ module.exports = {
                 );
                 res.status(200).send({ message: 'ok' });
             }
+        } else {
+            res.status(401).send();
+        }
+    },
+    profile: async (req, res) => {
+        let userid = req.params.userid;
+        if (authUser(req, userid)) {
+            let newImage = req.body.new_profile;
+
+            await User.update(
+                { profile_image: newImage },
+                {
+                    where: { id: userid },
+                }
+            );
+
+            res.status(200).send({ message: 'ok' });
+        } else {
+            res.status(401).send();
         }
     },
 };
