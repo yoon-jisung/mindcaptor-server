@@ -5,7 +5,7 @@ module.exports = {
         if (req.body.nickname!=='' && req.body.email!=='' && req.body.password!=='') {
             
             let [userInfo,created] = await users.findOrCreate({
-                where:{nickname:req.body.email},
+                where:{email:req.body.email},
                 defaults:{
                     nickname: req.body.nickname,
                     email: req.body.email,
