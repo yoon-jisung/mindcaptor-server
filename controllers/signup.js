@@ -2,6 +2,9 @@ const { users } = require('../models')
 
 module.exports = {
     post: async function (req, res) {
+        console.log(
+            req.body
+        )
         if (req.body.nickname!=='' && req.body.email!=='' && req.body.password!=='') {
             
             let [userInfo,created] = await users.findOrCreate({
