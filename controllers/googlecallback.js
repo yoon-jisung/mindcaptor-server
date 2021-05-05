@@ -32,7 +32,13 @@ module.exports = async (req, res) => {
         })
         if(created){
             const accessToken = await jwt.sign(userInfo,process.env.ACCESS_SECRET,{ expiresIn: '30m' })
+            const refreshToken = jwt.sign(
+                userInfo,
+                process.env.REFRESH_SECRET,
+                { expiresIn: '1h' }
+            );
             console.log('구글아이디로 회원가입')
+            res.cookie('refreshToken', refreshToken, { httpOnly: true });
             res.send(200, {accessToken: accessToken});
         }else{
             const userInfo = {
@@ -41,6 +47,12 @@ module.exports = async (req, res) => {
                 password: at_hash,
             }
             const accessToken = await jwt.sign(userInfo,process.env.ACCESS_SECRET,{ expiresIn: '30m' })
+            const refreshToken = jwt.sign(
+                userInfo,
+                process.env.REFRESH_SECRET,
+                { expiresIn: '1h' }
+            );
+            res.cookie('refreshToken', refreshToken, { httpOnly: true });
             console.log('구글아이디로 회원정보 있슴')
             res.send(200, {accessToken: accessToken});
         }
