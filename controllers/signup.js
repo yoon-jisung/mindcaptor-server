@@ -1,3 +1,4 @@
+
 const { users } = require('../models');
 
 module.exports = {
@@ -35,4 +36,8 @@ module.exports = {
             });
         }
     },
+module.exports = {
+    // post: function (req, res) {
+    //     console.log(req.query.email);
+    // },
 };
