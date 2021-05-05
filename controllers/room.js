@@ -54,8 +54,8 @@ module.exports = {
                 answer: null,
             });
             // await joinUser(req, newRoom); // 2. 사용자를 그 방과 연결시킨다.
-
-            res.redirect('../' + newRoom.id);
+            res.status(201).json({data:newRoom.dataValues.id,message:'createdRooom'})
+            //res.redirect('../' + newRoom.id);
         }
     },
 };
