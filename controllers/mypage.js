@@ -100,4 +100,5 @@ module.exports = {
         }
     },
     newpwd: async (req, res) => {},
+
 };
