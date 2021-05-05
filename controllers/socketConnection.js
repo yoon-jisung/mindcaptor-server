@@ -37,16 +37,17 @@ module.exports = (server, app) => {
             }
         });
 
+
         // 1. 라운드 시작
+
         socket.on('start round', async () => {
             // 2. 출제자 정하기
-            // let users = await User.findAll({
-            //     where: { room_id: Number(roomNum) },
-            // });
-            // presenter = users[Math.floor(Math.random() * users.length)];
-            // console.log(presenter);
-            // io.to(roomNum).emit('set presenter', presenter);
-            io.to(roomNum).emit('set presenter', { id: 1, nickname: '김코딩' });
+
+            let users = await User.findAll({
+                where: { room_id: Number(roomNum) },
+            });
+            presenter = users[Math.floor(Math.random() * users.length)];
+            io.to(roomNum).emit('set presenter', presenter);
         });
 
         // 3. 출제자의 단어 선택 후 ???
@@ -68,13 +69,21 @@ module.exports = (server, app) => {
             }
         });
 
+        socket.on('message', ({ name, message }) => {
+            io.emit('message', { name, message });
+        });
         // 참여자들이 채팅을 보낼 때
-        socket.on('send message', (userid, message) => {
-            if (message === answer) {
-                io.to(roomNum).emit('get right answer', userid);
-            } else {
-                io.to(roomNum).emit('show chat', userid, message);
-            }
+
+        // socket.on('message', ({ name, message }) => {
+        //     if (message === answer) {
+        //         io.to(roomNum).emit('get right answer', name);
+        //     } else {
+        //         io.to(roomNum).emit('show chat', { name, message });
+        //     }
+        //   });
+
+        socket.on('send paint', (x0, y0, x1, y1, color) => {
+            io.to(roomNum).emit('show paint', x0, y0, x1, y1, color);
         });
 
         // 그림 보낼 때
