@@ -1,10 +1,10 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const controller = require('../controllers/mypage.js');
 
 // 팔로워 목록 가져오기
-router.get('/follwers', (req, res, next) => {
-    // 컨트롤러 함수 호출
+router.get('/followers', (req, res, next) => {
+    controller.followers(req, res);
 });
 
 // 팔로잉 목록 가져오기
@@ -13,7 +13,7 @@ router.get('/followings', (req, res, next) => {
 });
 
 // 특정 이메일을 가진 유저 팔로우
-router.post('/follwers', (req, res, next) => {
+router.post('/follow', (req, res, next) => {
     // 컨트롤러 함수 호출
 });
 

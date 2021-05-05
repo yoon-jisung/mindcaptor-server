@@ -1,27 +1,104 @@
+const User = require('../models/index.js').users;
+const Room = require('../models/index.js').rooms;
+const Guest = require('../models/index.js').guests;
+const Followlist = require('../models/index.js').sequelize.models.followlist;
+
 module.exports = {
+    followers: async (req, res) => {
+        const userid = req.params.userid;
 
-// // 팔로워 목록 가져오기
-// follwers: (req, res) => {
-//     // 컨트롤러 함수 호출
-// },
+        const followerIDs = await Followlist.findAll({
+            where: { followed_id: userid },
+        });
 
-// // 팔로잉 목록 가져오기
-// followings: (req, res) => {
-//     // 컨트롤러 함수 호출
-// }
+        const followers = followerIDs.map(async (el) => {
+            await User.findOne({ where: { id: el } });
+        });
+        res.status(200).send({
+            data: followers,
+            message: 'ok',
+        });
+    },
+    followings: async (req, res) => {
+        const userid = req.params.userid;
 
-// // 특정 이메일을 가진 유저 팔로우
-// follwers: (req, res) => {
-//     // 컨트롤러 함수 호출
-// }
+        const followingIDs = await Followlist.findAll({
+            where: { following_id: userid },
+        });
 
-// // 유저 언팔로우
-// unfollow', (req, res, next) => {
-//     // 컨트롤러 함수 호출
-// });
+        const followings = followingIDs.map(async (el) => {
+            await User.findOne({ where: { id: el } });
+        });
+        res.status(200).send({
+            data: followings,
+            message: 'ok',
+        });
+    },
+    follow: async (req, res) => {
+        let email = req.body.email;
+        let userid = req.params.userid;
 
-// // 비밀번호 변경
-// router.post('/newpwd', (req, res, next) => {
-//     // 컨트롤러 함수 호출
-// })
+        const newFollowing = await User.findOne({
+            where: { email: email },
+            attributes: ['id'],
+        });
+        if (newFollowing.length === 0 || !newFollowing) {
+            res.status(404).send({
+                message: '해당 이메일을 사용하는 유저가 없습니다.',
+            });
+        } else {
+            await Followlist.create({
+                followed_id: newFollowing,
+                following_id: user,
+            });
+            const user = await User.findOne({
+                where: { id: userid },
+                attributes: ['id'],
+            });
+            const followerIDs = await Followlist.findAll({
+                where: { followed_id: userid },
+            });
+
+            const followers = followerIDs.map(async (el) => {
+                await User.findOne({ where: { id: el } });
+            });
+            res.status(200).send({
+                data: followers,
+                message: 'ok',
+            });
+        }
+    },
+    unfollow: async (req, res) => {
+        let email = req.body.email;
+        let userid = req.params.userid;
+
+        let unfollowUser = await User.findOne({
+            where: { email: email },
+            attributes: ['id'],
+        });
+
+        let numOfDeleted = await Followlist.destroy({
+            where: { followed_id: unfollowUser, followed_id: userid },
+        });
+
+        if (numOfDeleted === 0 || !numOfDeleted) {
+            res.status(404).send({
+                message: '팔로우하지 않은 유저를 언팔로우할 수 없습니다.',
+            });
+        } else {
+            const followingIDs = await Followlist.findAll({
+                where: { following_id: userid },
+            });
+
+            const followings = followingIDs.map(async (el) => {
+                await User.findOne({ where: { id: el } });
+            });
+            res.status(200).send({
+                data: followings,
+                message: 'ok',
+            });
+        }
+    },
+    newpwd: async (req, res) => {},
+
 };
