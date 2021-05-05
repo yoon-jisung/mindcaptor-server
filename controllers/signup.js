@@ -18,7 +18,7 @@ module.exports = {
             })
 
             if(created){
-                res.status(201).json({ data: null,  message: 'created' });
+                res.status(201).json({ data: userInfo,  message: 'created' });
             }else{
                 res.status(409).json({ data: null,  message: '해당 이메일은 이미 존재합니다.' });
             }
