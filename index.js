@@ -46,11 +46,9 @@ app.use('/user', userRouter);
 app.use('/googlelogin', googleRouter);
 //app.use('/googlelogin', googleRouter);
 
-
 server.listen(HTTP_PORT, () => {
     console.log('server runnning ', HTTP_PORT);
 });
 
 websocket(server, app);
 module.exports = server;
-
