@@ -35,4 +35,8 @@ router.post('/newpwd', (req, res, next) => {
 router.post('/profile', (req, res, next) => {
     controller.profile(req, res);
 });
+
+router.post('/comment', (req, res) => {
+    controller.comment(req, res);
+});
 module.exports = router;

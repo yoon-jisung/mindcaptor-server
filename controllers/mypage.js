@@ -176,4 +176,21 @@ module.exports = {
             res.status(401).send();
         }
     },
+    comment: async (req, res) => {
+        let userid = req.params.userid;
+        if (authUser(req, userid)) {
+            let newComment = req.body.new_comment;
+
+            await User.update(
+                { comment: newComment },
+                {
+                    where: { id: userid },
+                }
+            );
+            let user = await User.findOne({ where: { id: userid } });
+            res.status(200).send({ data: user, message: 'ok' });
+        } else {
+            res.status(401).send();
+        }
+    },
 };
