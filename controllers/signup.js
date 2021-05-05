@@ -3,10 +3,13 @@ const { users } = require('../models')
 
 module.exports = {
     post: async function (req, res) {
+        console.log(
+            req.body
+        )
         if (req.body.nickname!=='' && req.body.email!=='' && req.body.password!=='') {
             
             let [userInfo,created] = await users.findOrCreate({
-                where:{nickname:req.body.email},
+                where:{email:req.body.email},
                 defaults:{
                     nickname: req.body.nickname,
                     email: req.body.email,
