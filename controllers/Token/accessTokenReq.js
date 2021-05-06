@@ -21,8 +21,13 @@ module.exports = {
             let userInfo = await users.findOne({
                 where: { email: accessTokenData.email }
             })
-            delete userInfo.dataValues.password;
-            res.status(200).json({ data: userInfo.dataValues, message: "토큰이 발급되었습니다" })
+            if(!userInfo){
+                res.status(200).json({ data: userInfo.dataValues, message: "게스트용 토큰이 발급되었습니다" })
+            }else{
+                delete userInfo.dataValues.password;
+                res.status(200).json({ data: userInfo.dataValues, message: "토큰이 발급되었습니다" })
+            }
+            
         }
     }
 };
