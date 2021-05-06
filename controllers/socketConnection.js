@@ -75,11 +75,11 @@ module.exports = (server, app) => {
         });
         // 참여자들이 채팅을 보낼 때
 
-        socket.on('send message', ({ name, message }) => {
+        socket.on('send message', (name, message) => {
             if (message === answer) {
                 io.to(roomNum).emit('get right answer', name);
             } else {
-                io.to(roomNum).emit('show chat', { name, message });
+                io.to(roomNum).emit('show chat', name, message);
             }
         });
 
