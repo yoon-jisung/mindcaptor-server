@@ -35,13 +35,12 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.users = require('./users')(sequelize,Sequelize);
-//db.followlist = require('./followlist')(sequelize,Sequelize);
 db.images = require('./images')(sequelize,Sequelize);
 db.rooms = require('./rooms')(sequelize,Sequelize);
 db.guests= require('./guests')(sequelize,Sequelize);
 
-db.users.belongsTo(db.images, {foreignKey: 'profile_image', targetKey: 'id'});
-db.images.hasMany(db.users,{foreignKey:'profile_image',sourceKey:'id'})
+//db.users.belongsTo(db.images, {foreignKey: 'profile_image', targetKey: 'id'});
+//db.images.hasMany(db.users,{foreignKey:'profile_image',sourceKey:'id'})
 
 db.guests.belongsTo(db.rooms, {foreignKey: 'room_id', targetKey: 'id'})
 db.users.belongsTo(db.rooms, {foreignKey: 'room_id', targetKey: 'id'});
