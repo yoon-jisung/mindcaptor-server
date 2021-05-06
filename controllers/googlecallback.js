@@ -50,7 +50,7 @@ module.exports = async (req, res) => {
             const refreshToken = jwt.sign(
                 userInfo,
                 process.env.REFRESH_SECRET,
-                { expiresIn: '1h' }
+                { expiresIn: '24h' }
             );
             res.cookie('refreshToken', refreshToken, { httpOnly: true });
             console.log('구글아이디로 회원정보 있슴')

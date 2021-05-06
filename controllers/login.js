@@ -1,5 +1,6 @@
 const { users } = require('../models');
 const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 module.exports = {
     post: async (req, res) => {
@@ -7,7 +8,7 @@ module.exports = {
         let userInfo = await users.findOne({
             where: { email: req.body.email, password: req.body.password },
         });
-        console.log(userInfo);
+        //console.log(userInfo);
         if (!userInfo) {
             res.status(400).json({
                 data: null,
@@ -25,7 +26,8 @@ module.exports = {
                 process.env.REFRESH_SECRET,
                 { expiresIn: '1h' }
             );
-            res.cookie('refreshToken', refreshToken, { httpOnly: true });
+            console.log(refreshToken)
+            res.cookie('refreshToken', refreshToken, { httpOnly: true});
             res.json({ data: { accessToken }, message: 'Sign in completed' });
         }
     },
