@@ -1,7 +1,9 @@
 const SocketIO = require('socket.io');
+const jwt = require('jsonwebtoken');
+const cookie = require('cookie');
 const User = require('../models/index.js').users;
 const Room = require('../models/index.js').rooms;
-const START_SECOND = 5;
+const START_SECOND = 30;
 module.exports = (server, app) => {
     const io = SocketIO(server, { path: '/socket.io' });
 
@@ -13,9 +15,10 @@ module.exports = (server, app) => {
         let roomNum;
         let second = START_SECOND;
 
+        socket.emit('my socket id', socket.id);
         // 클라이언트로부터 방 번호를 받는다
         socket.on('send roomNum', async (data) => {
-            roomNum = data;
+            roomNum = Number(data);
             socket.join(roomNum);
             let users = await User.findAll({
                 attributes: ['nickname'],
@@ -37,24 +40,22 @@ module.exports = (server, app) => {
             }
         });
 
-
         // 1. 라운드 시작
 
         socket.on('start round', async () => {
             // 2. 출제자 정하기
 
             let users = await User.findAll({
-                where: { room_id: Number(roomNum) },
+                where: { room_id: roomNum },
             });
             presenter = users[Math.floor(Math.random() * users.length)];
-            io.to(roomNum).emit('set presenter', presenter);
+            io.to(roomNum).emit('set presenter', presenter.dataValues);
         });
 
         // 3. 출제자의 단어 선택 후 ???
         socket.on('set answer', (arg) => {
             if (arg.answer !== '') {
                 answer = arg.answer;
-                console.log(answer);
                 io.to(roomNum).emit('get answer', answer); // 출제자가 선택한 단어를 뿌려줌
                 let timer = setInterval(() => {
                     // 타이머(1초에 한번씩 보내줌)
@@ -74,21 +75,17 @@ module.exports = (server, app) => {
         });
         // 참여자들이 채팅을 보낼 때
 
-        // socket.on('message', ({ name, message }) => {
-        //     if (message === answer) {
-        //         io.to(roomNum).emit('get right answer', name);
-        //     } else {
-        //         io.to(roomNum).emit('show chat', { name, message });
-        //     }
-        //   });
-
-        socket.on('send paint', (x0, y0, x1, y1, color) => {
-            io.to(roomNum).emit('show paint', x0, y0, x1, y1, color);
+        socket.on('send message', ({ name, message }) => {
+            if (message === answer) {
+                io.to(roomNum).emit('get right answer', name);
+            } else {
+                io.to(roomNum).emit('show chat', { name, message });
+            }
         });
 
-        // 그림 보낼 때
-        socket.on('send paint', (x0, y0, x1, y1, color) => {
-            io.to(roomNum).emit('show paint', x0, y0, x1, y1, color);
+        socket.on('drawing', (data) => {
+            console.log(data);
+            socket.broadcast.emit('drawing', data);
         });
     });
 };
