@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   guests.init({
-    guest_name: DataTypes.STRING,
+    nickname: DataTypes.STRING,
     room_name: DataTypes.STRING,
     room_id: DataTypes.INTEGER
   }, {

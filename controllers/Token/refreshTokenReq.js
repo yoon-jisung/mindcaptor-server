@@ -20,7 +20,7 @@ module.exports = {
             }
         }
         if (!refreshTokenData) {
-            res.json({ data: null, message: 'refresh이 발급 되었습니다' });
+            res.json({ data: null, message: '잘못된 토큰' });
         } else {
             let userInfo = await users.findOne({
                 where: { email: refreshTokenData.email },

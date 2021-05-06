@@ -19,7 +19,7 @@ module.exports = {
     },
     logout: (req,res) =>{
         console.log('쿠키 삭제')
-        res.clearCookie('refreshToken').send(req.cookies.refreshToken);
-        res.redirect('/');
+        console.log(req.cookies)
+        res.clearCookie('refreshToken',{httpOnly:true})
     }
-};
+}
