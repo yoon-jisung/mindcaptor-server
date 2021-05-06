@@ -3,7 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
-app.use(cookieParser())
+app.use(cookieParser());
 const server = require('http').createServer(app);
 const websocket = require('./controllers/socketConnection');
 const indexRouter = require('./routes/index');
@@ -20,7 +20,7 @@ const HTTP_PORT = process.env.HTTP_PORT || 4000;
 
 // 서버가 실행될 때 시퀄라이저의 스키마를 DB에 적용
 
-sequelize.sync(/* { force: true } */);
+sequelize.sync({ force: true });
 
 /* 테스트용 클라이언트(testClient/chat.ejs)를 위한 뷰 엔진 */
 
