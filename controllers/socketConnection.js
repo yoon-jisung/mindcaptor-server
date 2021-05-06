@@ -37,7 +37,6 @@ module.exports = (server, app) => {
             }
         });
 
-
         // 1. 라운드 시작
 
         socket.on('start round', async () => {
@@ -47,7 +46,7 @@ module.exports = (server, app) => {
                 where: { room_id: Number(roomNum) },
             });
             presenter = users[Math.floor(Math.random() * users.length)];
-            io.to(roomNum).emit('set presenter', presenter);
+            io.to(roomNum).emit('set presenter', presenter.dataValues);
         });
 
         // 3. 출제자의 단어 선택 후 ???
