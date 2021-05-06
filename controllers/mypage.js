@@ -2,12 +2,16 @@ const User = require('../models/index.js').users;
 const Room = require('../models/index.js').rooms;
 const Guest = require('../models/index.js').guests;
 const Followlist = require('../models/index.js').sequelize.models.followlist;
+const jwt = require('jsonwebtoken');
+
 const authUser = (req, userid) => {
     let token = req.headers['authorization'];
-    const splited = authorization.split(' ')[1];
+    const splited = token.split(' ')[1];
     const userData = jwt.verify(splited, process.env.ACCESS_SECRET);
-    return userid === String(userData.userId);
+    console.log(userData)
+    return userid === String(userData.id);
 };
+
 module.exports = {
     followers: async (req, res) => {
         const userid = req.params.userid;
@@ -161,8 +165,18 @@ module.exports = {
     },
     profile: async (req, res) => {
         let userid = req.params.userid;
+        console.log(req)
+        console.log('req.body프로파일 변경',req.body)
+        console.log('유저의 아이디는',userid)
         if (authUser(req, userid)) {
             let newImage = req.body.new_profile;
+            console.log(newImage)
+
+            // await User.update({ lastName: "Doe" }, {
+            //     where: {
+            //       lastName: null
+            //     }
+            //   });
 
             await User.update(
                 { profile_image: newImage },
@@ -178,6 +192,8 @@ module.exports = {
     },
     comment: async (req, res) => {
         let userid = req.params.userid;
+        console.log('req.body자기소개 변경',req.params.userid)
+        console.log('유저아이디',userid)
         if (authUser(req, userid)) {
             let newComment = req.body.new_comment;
 

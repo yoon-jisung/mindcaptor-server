@@ -7,11 +7,10 @@ module.exports = {
 			// 0. guest 회원정보 추가
             console.log(guests)
 			const guest = await guests.create({
-				guest_name: "guest" + Date.now().toString(),
+				nickname: "guest" + Date.now().toString(),
 			});
-			//await guest.save();
-            console.log(guest.toJSON())
-			// 1. id를 토근 생성에 사용한다. (페이로드, 비밀키, 토큰정보, 콜백함수)
+			
+
 			const accessToken = jwt.sign(
 				{ id: guest.id },
 				process.env.ACCESS_SECRET,

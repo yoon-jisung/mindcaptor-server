@@ -33,6 +33,7 @@ router.post('/newpwd', (req, res, next) => {
 
 // 프로필 이미지 업데이트
 router.post('/profile', (req, res, next) => {
+    console.log('hi')
     controller.profile(req, res);
 });
 
